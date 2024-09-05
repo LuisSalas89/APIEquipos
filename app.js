@@ -42,6 +42,20 @@ app.put('/equipos/:id', (req, res) => {
   }
 });
 
+app.delete('/equipos/:id', (req, res) => {
+  const { id } = req.params;  // Obtiene el ID del equipo desde la URL
+
+  // Encuentra el índice del equipo en el array por su ID
+  const indice = equipos.findIndex(equipo => equipo.id === id);
+
+  if (indice !== -1) {
+    const equipoEliminado = equipos.splice(indice, 1);  // Elimina el equipo del array
+    res.status(200).json({ mensaje: `Equipo con id ${id} eliminado`, equipo: equipoEliminado });
+  } else {
+    res.status(404).json({ error: `Equipo con id ${id} no encontrado` });  // Responde con un error si el equipo no existe
+  }
+});
+
 // Iniciar el servidor en el puerto 3004
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, () => {
