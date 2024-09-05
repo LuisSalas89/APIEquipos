@@ -27,7 +27,20 @@ app.post('/equipos', (req, res) => {
   res.status(201).json(nuevoEquipo); // Responde con el equipo creado y el código 201 (Creado)
 });
 
+app.put('/equipos/:id', (req, res) => {
+  const { id } = req.params;  // Obtiene el ID del equipo desde la URL
+  const equipoActualizado = req.body;  // Obtiene los datos actualizados del cuerpo de la solicitud
 
+  // Encuentra el equipo en el array por su ID
+  const indice = equipos.findIndex(equipo => equipo.id === id);
+
+  if (indice !== -1) {
+    equipos[indice] = { ...equipos[indice], ...equipoActualizado };  // Actualiza los datos del equipo
+    res.status(200).json(equipos[indice]);  // Responde con el equipo actualizado
+  } else {
+    res.status(404).json({ error: `Equipo con id ${id} no encontrado` });  // Responde con un error si el equipo no existe
+  }
+});
 
 // Iniciar el servidor en el puerto 3004
 const PORT = process.env.PORT || 3004;
