@@ -20,6 +20,15 @@ app.get('/equipos', (req, res) => {
   res.json(equipos);
 });
 
+app.post('/equipos', (req, res) => {
+  const nuevoEquipo = req.body; // Obtiene los datos del equipo del cuerpo de la solicitud
+  //nuevoEquipo.id = Date.now().toString(); // Genera un id único para el nuevo equipo
+  equipos.push(nuevoEquipo); // Añade el nuevo equipo al array de equipos
+  res.status(201).json(nuevoEquipo); // Responde con el equipo creado y el código 201 (Creado)
+});
+
+
+
 // Iniciar el servidor en el puerto 3004
 const PORT = process.env.PORT || 3004;
 app.listen(PORT, () => {
